@@ -19,7 +19,7 @@ EVENT_HUBNAME = os.getenv("EVENT_HUBNAME")
 
 
 def send_to_event_hub(ride_data=None, batch_size=1):
-
+   
     try:
         # Initialize Event Hub Producer Client
         producer = EventHubProducerClient.from_connection_string(
