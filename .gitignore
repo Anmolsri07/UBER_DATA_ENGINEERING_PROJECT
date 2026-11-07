@@ -8,7 +8,3 @@ wheels/
 
 # Virtual environments
 .venv
-
-.env
-
-not_for_you/
