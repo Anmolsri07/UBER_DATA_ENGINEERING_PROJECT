@@ -60,15 +60,17 @@ A row-count query confirms the star schema loaded: `fact` holds 2,022 rides, mat
 
 ```
 UBER_DATA_ENGINEERING_PROJECT/
-├── Code_Files/            # Databricks notebooks: Bronze_adls, ingest, Silver, silver_obt, model
-├── Data/                  # Source JSON files (bulk_rides, map_*)
-├── adf/                   # Azure Data Factory JSON (pipeline, datasets, linked services)
-├── screenshots/           # Evidence of Azure and Databricks resources
-├── templates/             # HTML templates
-├── api.py                 # Event producer / API script
-├── connection.py          # Event Hubs connection (no secrets committed)
-├── architecture.png       # Architecture diagram
-├── files_array.json       # File list used by the ADF ForEach loop
+├── Code_Files/         # Databricks notebooks (bronze, silver, gold)
+├── Data/               # Source JSON files (bulk_rides, map_*)
+├── screenshots/        # Azure and Databricks screenshots
+├── src/uberproject/    # Python package code
+├── templates/          # HTML templates
+├── api.py              # Event producer / API script
+├── architecture.png    # Architecture diagram
+├── connection.py       # Event Hubs connection (no secrets)
+├── data.py             # Data helper script
+├── files_array.json    # File list for the ADF ForEach loop
+├── pyproject.toml
 ├── requirements.txt
 └── README.md
 ```
