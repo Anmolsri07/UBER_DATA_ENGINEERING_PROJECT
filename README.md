@@ -10,7 +10,7 @@ GitHub (Data/) → ADF (HTTPToADLS) → ADLS Gen2 (raw/ingestion) ─┐
 Python producer → Event Hubs (ubertopic) ──────────────────────┘
 ```
 
-![Databricks Pipeline Graph](Uber_Data_Engineer_Project\Screenshots\Databricks_pipeline_graph.png)
+![Databricks Pipeline Graph](screenshots/09_databricks_pipeline_graph.png)
 
 ## Tech Stack
 
@@ -31,19 +31,19 @@ Python producer → Event Hubs (ubertopic) ────────────�
 ### 1. Batch ingestion (Azure Data Factory)
 Pipeline `HTTPToADLS` uses a **Lookup** activity to read the file list (`files_array`), then a **ForEach** loop runs a **Copy** activity per file. Each Uber dataset is downloaded from GitHub over HTTP into `raw/ingestion` in ADLS Gen2. The pipeline ran 8 times between Oct 24 and Nov 1, all successful.
 
-![ADF Pipeline](Uber_Data_Engineer_Project\Screenshots\screenshots03_adf_pipeline.png.png)
-![ADF Runs](Uber_Data_Engineer_Project\Screenshots\screenshots04b_adf_run_detail.png.png)
+![ADF Pipeline](screenshots/03_adf_pipeline.png)
+![ADF Runs](screenshots/04_adf_run.png)
 
 ### 2. Streaming ingestion (Azure Event Hubs)
 Ride events are sent to the `ubertopic` event hub (namespace `uberevents7`, 1 partition, 168h retention) and consumed by Databricks into `rides_raw`.
 
-![Event Hubs](Uber_Data_Engineer_Project\Screenshots\screenshots05_event_hubs_metrics.png.png)
-![Events](Uber_Data_Engineer_Project\Screenshots\screenshots05b_ubertopicc_events.png.png)
+![Event Hubs](screenshots/05_event_hubs.png)
+![Events](screenshots/05b_ubertopic_events.png)
 
 ### 3. Raw storage (ADLS Gen2)
 Storage account `dluberprojectdev7`, container `raw`, folder `ingestion` holding the bulk and mapping files.
 
-![ADLS](Uber_Data_Engineer_Project\Screenshots\screenshots02c_adls_ingestion.png.png)
+![ADLS](screenshots/02c_adls_ingestion.png)
 
 ### 4. Databricks lakehouse
 - **Bronze:** `rides_raw` (streaming from Event Hubs) and `bulk_rides` (historical)
@@ -53,8 +53,8 @@ Storage account `dluberprojectdev7`, container `raw`, folder `ingestion` holding
 ### 5. Gold layer validation
 A row-count query confirms the star schema loaded: `fact` holds 2,022 rides, matched by `dim_driver`, `dim_passenger`, `dim_vehicle` and `dim_booking` (2,022 rows each), plus `dim_location` (14 rows) and `dim_payments` (4 rows).Dimensions use SCD Type 2 (`__END_AT IS NULL` selects the current record).
 
-![Catalog](Uber_Data_Engineer_Project\Screenshots\Databricks_catlog.png)
-![Gold Layer Test](Uber_Data_Engineer_Project\Screenshots\gold_layer_test.png)
+![Catalog](screenshots/07_databricks_catalog.png)
+![Gold Layer Test](screenshots/08_gold_layer_test.png)
 
 ## Project Structure
 
@@ -64,7 +64,7 @@ UBER_DATA_ENGINEERING_PROJECT/
 ├── Data/                  # Source JSON files (bulk_rides, map_*)
 ├── adf/                   # Azure Data Factory JSON (pipeline, datasets, linked services)
 ├── screenshots/           # Evidence of Azure and Databricks resources
-├── templates/             # <describe>
+├── templates/             # HTML templates
 ├── api.py                 # Event producer / API script
 ├── connection.py          # Event Hubs connection (no secrets committed)
 ├── architecture.png       # Architecture diagram
@@ -75,7 +75,7 @@ UBER_DATA_ENGINEERING_PROJECT/
 
 ## Azure Resources Used
 
-![Resource Group](Uber_Data_Engineer_Project\Screenshots\screenshots01_resource_group.png.png)
+![Resource Group](screenshots/01_resource_group.png)
 
 | Resource | Name | Purpose |
 |---|---|---|
